@@ -1,0 +1,24 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: "Inter", serif;
+}
+
+img {
+  max-width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 85%;
+  }
+}
+
+@media (min-width: 640px) {
+  .newsletter {
+    background-image: url("/news-letter.png");
+  }
+}

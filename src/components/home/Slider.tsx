@@ -130,7 +130,7 @@ function Slider() {
       <div className="py-8 sm:flex justify-between items-center">
         <div>
           <h2 className="text-5xl mb-4 font-semibold lg:text-7xl ">
-            Simply Unique<i className="text-gray-600">/</i> <br />
+            Simply Unique <i className="text-gray-600">/</i> <br />
             Simply Better<i className="text-gray-600">.</i>
           </h2>
         </div>

@@ -1,10 +1,16 @@
 import Image from "next/image";
 import { useState } from "react";
 
-function FlyCart({ flyCartOpen, setFlyCartOpen }) {
+function FlyCart({
+  flyCartOpen,
+  setFlyCartOpen,
+}: {
+  flyCartOpen: boolean;
+  setFlyCartOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   return (
     <div
-      className={`flyCart-menu w-[300px]  origin-right duration-300  fixed top-0 right-0 bottom-0  z-10 bg-slate-50 p-4 ${
+      className={`flyCart-menu w-[300px]  origin-right duration-300  fixed top-0 right-0 bottom-0  z-30 bg-slate-50 p-4 ${
         flyCartOpen ? "" : "scale-x-0"
       }`}
     >

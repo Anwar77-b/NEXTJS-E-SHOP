@@ -1,3 +1,4 @@
+import Footer from "@/components/footer/Footer";
 import Banner from "@/components/home/Banner";
 import Newsletter from "@/components/home/Newsletter";
 import Sales from "@/components/home/Sales";
@@ -13,6 +14,7 @@ export default function Home() {
       <Sales></Sales>
       <div className="w-full h-7 bg-white"></div>
       <Newsletter></Newsletter>
+      <Footer></Footer>
     </main>
   );
 }

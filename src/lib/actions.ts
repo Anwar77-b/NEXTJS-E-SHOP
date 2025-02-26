@@ -35,7 +35,7 @@ export const signup = async (prev: unknown, formData: FormData) => {
       email: data.email,
       password: hashedPassword,
     });
-    await createSession(newUser.id);
+    await createSession(newUser.id, newUser.fullName);
     await new Promise((resolve) => setTimeout(resolve, 1000));
     return redirect("/");
   } catch (error) {
@@ -64,7 +64,7 @@ export const login = async (prev: unknown, formData: FormData) => {
     if (!correct) {
       return { error: "wrong password please try again" };
     }
-    await createSession(user.id);
+    await createSession(user.id, user.fullName);
     return redirect("/");
   } catch (error) {
     if (isRedirectError(error)) {

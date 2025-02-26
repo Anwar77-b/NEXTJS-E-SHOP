@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 // import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/header/Header";
+import { CartProvider } from "@/components/context/CartContext";
 // import Footer from "@/components/footer/Footer";
 
 export const metadata: Metadata = {
@@ -17,8 +18,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`antialiased`}>
-        <Header></Header>
-        {children}
+        <CartProvider>
+          <Header></Header>
+          {children}
+        </CartProvider>
+
         {/* <Footer></Footer> */}
       </body>
     </html>

@@ -8,7 +8,7 @@ function Newsletter() {
         <p className="text-xs mb-6">
           Sign up for deals, new products and promotions
         </p>
-        <div className="border-b w-full relative sm:w-1/2 text-xs  border-b-gray-400 mx-auto flex items-center text-gray-400 justify-between">
+        <div className="border-b w-full  relative sm:w-1/2 text-xs  border-b-gray-400 mx-auto flex items-center text-gray-400 justify-between">
           <i className="absolute top-1 left-2 scale-90">
             <svg
               width="24"

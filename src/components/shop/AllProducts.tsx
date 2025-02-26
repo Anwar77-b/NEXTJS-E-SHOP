@@ -4,6 +4,9 @@ import Image from "next/image";
 import { useState } from "react";
 import { BiHeart } from "react-icons/bi";
 
+import { useContext } from "react";
+import { CartContext } from "../context/CartContext";
+
 import Offer from "./Offer";
 import Review from "./Review";
 import Link from "next/link";
@@ -141,7 +144,7 @@ function Product({ grid, product }) {
             grid == 1 ? "" : "hidden"
           }`}
         >
-          <AddToCart />
+          <AddToCart prodId={product._id} />
         </div>
         <div className="absolute scale-0 group-hover:scale-100 z-10 top-4 right-4">
           <AddToWishlist />
@@ -172,7 +175,7 @@ function Product({ grid, product }) {
           </p>
         </div>
         <div className={grid == 1 ? "hidden " : " "}>
-          <AddToCart />
+          <AddToCart prodId={product._id} />
           <button className="flex active:scale-95 mx-auto my-2 items-center gap-1 justify-center text-center">
             <BiHeart /> Wishlist
           </button>
@@ -182,9 +185,21 @@ function Product({ grid, product }) {
   );
 }
 
-function AddToCart() {
+function AddToCart({ prodId }) {
+  const { addToCart, cart } = useContext(CartContext);
+
+  const handleClick = () => {
+    console.log("Button clicked, prodId:", prodId);
+    if (!cart.find((item) => item === prodId)) {
+      addToCart(prodId);
+    }
+  };
+
   return (
-    <button className="p-2  active:scale-95 duration-75 bg-gray-950 text-sm w-full text-white rounded-md">
+    <button
+      onClick={handleClick}
+      className="p-2 active:scale-95 duration-75 bg-gray-950 text-sm w-full text-white rounded-md"
+    >
       Add to cart
     </button>
   );

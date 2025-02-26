@@ -1,6 +1,30 @@
 // models/Product.js
 import mongoose from "mongoose";
 
+const ReviewSchema = new mongoose.Schema(
+  {
+    authorName: {
+      type: String,
+      required: true,
+    },
+    reviewerId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    rating: {
+      type: Number,
+      required: true,
+      min: 1,
+      max: 5,
+    },
+    comment: {
+      type: String,
+      required: false,
+    },
+  },
+  { timestamps: true }
+);
 // Define the Color schema (as an object with name and imgUrl)
 const ColorSchema = new mongoose.Schema({
   name: {
@@ -44,12 +68,8 @@ const ProductSchema = new mongoose.Schema(
       type: String, // You can replace this with a reference to a Category model if needed
       required: true,
     },
-    reviews: [
-      {
-        type: mongoose.Schema.Types.ObjectId, // Reference to the Review model
-        ref: "Review",
-      },
-    ],
+    reviews: [ReviewSchema], // Now embedded instead of referenced
+
     sku: {
       type: String,
       required: true,

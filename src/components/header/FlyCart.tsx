@@ -1,13 +1,10 @@
 import Image from "next/image";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { CartContext } from "../context/CartContext";
 
-function FlyCart({
-  flyCartOpen,
-  setFlyCartOpen,
-}: {
-  flyCartOpen: boolean;
-  setFlyCartOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}) {
+function FlyCart({ flyCartOpen, setFlyCartOpen }) {
+  const { addToCart, cart } = useContext(CartContext);
+
   return (
     <div
       className={`flyCart-menu w-[300px]  origin-right duration-300  fixed top-0 right-0 bottom-0  z-30 bg-slate-50 p-4 ${
@@ -35,6 +32,7 @@ function FlyCart({
           </button>
         </div>
       </div>
+
       <div className="flex flex-col justify-between h-[95%]">
         <article className=" self-start overflow-y-scroll w-full max-h-[60%]">
           <Product />

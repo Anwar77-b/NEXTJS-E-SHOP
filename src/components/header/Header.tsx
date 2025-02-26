@@ -7,7 +7,7 @@ import { cookies } from "next/headers";
 async function Header() {
   const sessionCookie = (await cookies()).get("session");
 
-  let session = undefined;
+  let session: unknown;
   if (sessionCookie) {
     session = await decrypt(sessionCookie.value);
   }

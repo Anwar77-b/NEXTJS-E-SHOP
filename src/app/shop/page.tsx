@@ -22,7 +22,7 @@ async function page() {
     colors: product.colors,
     images: product.images,
     category: product.category,
-    reviews: product.reviews,
+    reviews: JSON.parse(JSON.stringify(product.reviews)).reverse(),
   }));
   // return (
   //   <div>

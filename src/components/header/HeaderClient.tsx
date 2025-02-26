@@ -1,17 +1,38 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Socials from "../Socials";
 import FlyCart from "./FlyCart";
 import { usePathname } from "next/navigation";
 import { signout } from "@/lib/actions";
+import { CartContext } from "../context/CartContext";
 
 function HeaderClient({ session }) {
   const [flyOpen, setFlyOpen] = useState(false);
   const [flyCartOpen, setFlyCartOpen] = useState(false);
   const [profileMenu, setProfileMenu] = useState(false);
+  const { addToCart, cart } = useContext(CartContext);
+
   const pathName = usePathname();
-  //   console.log(session);
+  console.log(session);
+  useEffect(() => {
+    const close = () => {
+      setProfileMenu(false);
+    };
+    if (flyOpen || flyCartOpen) {
+      document.body.style.overflow = "hidden"; // Disable scrolling
+    } else {
+      document.body.style.overflow = ""; // Enable scrolling
+    }
+    if (profileMenu) {
+      document.body.addEventListener("click", close);
+    }
+
+    return () => {
+      document.body.removeEventListener("click", close);
+      document.body.style.overflow = ""; // Reset when component unmounts
+    };
+  }, [flyOpen, flyCartOpen, profileMenu]);
 
   return (
     <header className="bg-white">

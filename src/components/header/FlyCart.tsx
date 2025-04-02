@@ -1,10 +1,34 @@
 import Image from "next/image";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { CartContext } from "../context/CartContext";
 
 function FlyCart({ flyCartOpen, setFlyCartOpen }) {
-  const { addToCart, cart } = useContext(CartContext);
+  const { cart, setCart } = useContext(CartContext);
+  const [products, setProducts] = useState([]);
 
+  useEffect(() => {
+    if (cart.length === 0) return; // Avoid unnecessary requests
+
+    const fetchCartProducts = async () => {
+      const res = await fetch("http://localhost:3000/api/products", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(cart),
+      });
+
+      const data = await res.json();
+      console.log(data.products);
+      setProducts(data.products);
+    };
+
+    fetchCartProducts();
+  }, [cart]);
+  let price = 0;
+  products.map((product) => {
+    price += product.price;
+  });
   return (
     <div
       className={`flyCart-menu w-[300px]  origin-right duration-300  fixed top-0 right-0 bottom-0  z-30 bg-slate-50 p-4 ${
@@ -35,21 +59,29 @@ function FlyCart({ flyCartOpen, setFlyCartOpen }) {
 
       <div className="flex flex-col justify-between h-[95%]">
         <article className=" self-start overflow-y-scroll w-full max-h-[60%]">
+          {/* <Product />
           <Product />
           <Product />
           <Product />
-          <Product />
-          <Product />
+          <Product /> */}
+          {products.map((product) => (
+            <Product
+              key={product._id}
+              info={product}
+              setProducts={setProducts}
+              products={products}
+            />
+          ))}
         </article>
         <div>
           <ul className="flex flex-col mb-4">
             <li className="flex justify-between text-gray-500 py-2 border-b">
               Subtotal
-              <span className="text-black text-sm">99.00$</span>
+              <span className="text-black text-sm">{price}$</span>
             </li>
             <li className="flex justify-between  py-2 border-b">
               Total
-              <span className="text-black">199.49$</span>
+              <span className="text-black">{price}$</span>
             </li>
           </ul>
           <button className="w-full bg-[#141718] rounded-md py-2 text-white text-sm">
@@ -64,20 +96,28 @@ function FlyCart({ flyCartOpen, setFlyCartOpen }) {
   );
 }
 
-function Product() {
+function Product({ info, setProducts, products }) {
   const [prdCount, setPrdCount] = useState(1);
+  const { removeFromCart } = useContext(CartContext);
+
+  const decreaseCount = () => {
+    if (prdCount === 1) {
+      removeFromCart(info._id);
+      setProducts([...products].filter((el) => el !== info));
+    } else {
+      setPrdCount(prdCount - 1);
+    }
+  };
+
   return (
     <section className="border-b flex justify-between items-start pb-4 mb-8">
       <div className="flex gap-2">
-        <Image src={"/table.png"} width={75} height={75} alt={""}></Image>
+        <Image src={info.images[0]} width={75} height={75} alt={""}></Image>
         <div>
-          <h3 className="font-semibold mb-1">Tray table</h3>
+          <h3 className="font-semibold mb-1">{info.name}</h3>
           <p className="text-sm mb-1 text-gray-500">Color : Black</p>
           <div className="border w-16 border-black rounded-sm flex justify-between">
-            <button
-              onClick={() => setPrdCount((prdCount) => prdCount - 1)}
-              className="px-2"
-            >
+            <button onClick={decreaseCount} className="px-2">
               -
             </button>
             <span>{prdCount}</span>

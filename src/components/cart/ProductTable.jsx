@@ -1,6 +1,12 @@
+"use client";
 import Image from "next/image";
+import { useContext } from "react";
+import { CartContext } from "@/components/context/CartContext";
+import CheckoutContext from "./CheckoutContext";
 
-function ProductTable() {
+function ProductTable({ products }) {
+  const { removeFromCart } = useContext(CartContext);
+
   return (
     <section className="w-full md:w-7/12">
       <header className="pb-6 border-b border-b-gray-600 text-sm flex gap-12 justify-between *:font-semibold">
@@ -10,53 +16,77 @@ function ProductTable() {
         <h4 className="hidden lg:block">Subtotal</h4>
       </header>
       <div>
-        <CartElement />
-        <CartElement />
-        <CartElement />
+        {products &&
+          products.map((prod, i) => (
+            <CartElement
+              key={prod._id}
+              prod={prod}
+              removeFromCart={removeFromCart}
+              index={i}
+            />
+          ))}
       </div>
       <Coupon />
     </section>
   );
 }
-function CartElement() {
+function CartElement({ prod, removeFromCart, index }) {
+  const { prodsWithQt } = useContext(CheckoutContext);
+  const qt = prodsWithQt[index].qt;
   return (
     <div className="py-6 border-b border-b-gray-400 items-center text-sm flex gap-12 justify-between">
       <div className="flex-grow">
         <div className="flex items-center">
           <div className="w-20 h-24 mr-4 relative">
-            <Image src="/table.png" alt="Product" fill />
+            <Image src={prod.images[0]} alt="Product" fill />
           </div>
           <div>
-            <h3 className="font-semibold mb-2">Tray Table</h3>
+            <h3 className="font-semibold mb-2">{prod.name}</h3>
             <p className="text-xs mb-2">Color: Black</p>
-            <button className="font-semibold text-gray-500 hidden lg:block">
+            <button
+              className="font-semibold text-gray-500 hidden lg:block"
+              onClick={() => removeFromCart(prod._id)}
+            >
               ✖ Remove
             </button>
             <div className="lg:hidden">
-              <QuantityInput />
+              <QuantityInput index={index} />
             </div>
           </div>
         </div>
       </div>
       <div className="hidden lg:block">
-        <QuantityInput />
+        <QuantityInput index={index} />
       </div>
-      <span className="hidden lg:block">$19.00</span>
-      <span className="font-bold hidden lg:block">$38.00</span>
-      <div className="lg:hidden pr-2">
-        <p className="font-bold">$19.00</p>
-        <p className="font-bold text-end text-gray-500">✖</p>
+      <span className="hidden lg:block">${prod.price}</span>
+      <span className="font-bold hidden lg:block">
+        ${(prod.price * qt).toFixed(2)}
+      </span>
+      <div className="lg:hidden pr-2 ">
+        <p className="font-bold">${(prod.price * qt).toFixed(2)}</p>
+        <p
+          className="font-bold text-end text-gray-500"
+          onClick={() => removeFromCart(prod._id)}
+        >
+          ✖
+        </p>
       </div>
     </div>
   );
 }
 
-function QuantityInput() {
+function QuantityInput({ index }) {
+  const { prodsWithQt, addQt, rmvQt } = useContext(CheckoutContext);
+
   return (
     <div className="border py-1 w-16 border-black rounded-[4px] flex justify-between">
-      <button className="px-2">-</button>
-      <span>1</span>
-      <button className="px-2">+</button>
+      <button className="px-2" onClick={() => rmvQt(index)}>
+        -
+      </button>
+      <span>{prodsWithQt[index].qt}</span>
+      <button className="px-2" onClick={() => addQt(index)}>
+        +
+      </button>
     </div>
   );
 }

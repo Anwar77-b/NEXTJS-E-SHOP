@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
 import { CartContext } from "../context/CartContext";
+import Link from "next/link";
 
 function FlyCart({ flyCartOpen, setFlyCartOpen }) {
   const { cart, setCart } = useContext(CartContext);
@@ -77,15 +78,18 @@ function FlyCart({ flyCartOpen, setFlyCartOpen }) {
           <ul className="flex flex-col mb-4">
             <li className="flex justify-between text-gray-500 py-2 border-b">
               Subtotal
-              <span className="text-black text-sm">{price}$</span>
+              <span className="text-black text-sm">{price.toFixed(2)}$</span>
             </li>
             <li className="flex justify-between  py-2 border-b">
               Total
-              <span className="text-black">{price}$</span>
+              <span className="text-black">{price.toFixed(2)}$</span>
             </li>
           </ul>
-          <button className="w-full bg-[#141718] rounded-md py-2 text-white text-sm">
-            Check out
+          <button
+            onClick={() => setFlyCartOpen(false)}
+            className="w-full bg-[#141718] rounded-md py-2 text-white text-sm"
+          >
+            <Link href={"/cart"}>Check out</Link>
           </button>
           <p className="text-center w-fit my-4 mx-auto border-b-2 border-b-black">
             View Cart

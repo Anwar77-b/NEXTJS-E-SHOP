@@ -4,7 +4,7 @@
 @tailwind utilities;
 
 body {
-  font-family: "Inter", sans-serif;
+  font-family: "Inter", cursive, sans-serif;
 }
 
 img {

@@ -11,8 +11,13 @@ function HeaderClient({ session }) {
   const [flyOpen, setFlyOpen] = useState(false);
   const [flyCartOpen, setFlyCartOpen] = useState(false);
   const [profileMenu, setProfileMenu] = useState(false);
-  const { addToCart, cart } = useContext(CartContext);
+  const { setSess } = useContext(CartContext);
 
+  useEffect(() => {
+    if (session) {
+      setSess(session);
+    }
+  }, [session, setSess]);
   const pathName = usePathname();
   console.log(session);
   useEffect(() => {
@@ -131,7 +136,7 @@ function HeaderClient({ session }) {
                 </Link>
               )}
             </div>
-            <button onClick={() => setProfileMenu(!profileMenu)}>
+            <button onClick={() => setProfileMenu(profileMenu ? false : true)}>
               <svg
                 width="22"
                 height="22"

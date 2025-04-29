@@ -5,11 +5,14 @@ import Footer from "../footer/Footer";
 import Step1Page from "./Step1Page";
 import Step2Page from "./Step2Page";
 import Step3Page from "./Step3Page";
+// import { CartContext } from "../context/CartContext";
+import { CheckoutProvider } from "./CheckoutContext";
 
 function CartPage() {
   const [step, setStep] = useState(1);
+
   return (
-    <>
+    <CheckoutProvider>
       <div className="container px-4 lg:px-0 mx-auto mb-4">
         <h2 className="text-3xl font-semibold lg:text-4xl text-center my-6 lg:my-10">
           Cart
@@ -19,12 +22,12 @@ function CartPage() {
           <Step step={step} k={2} name={"Checkout details"} setStep={setStep} />
           <Step step={step} k={3} name={"Order complete"} setStep={setStep} />
         </div>
-        {step === 1 && <Step1Page />}
-        {step === 2 && <Step2Page />}
+        {step === 1 && <Step1Page step={step} setStep={setStep} />}
+        {step === 2 && <Step2Page setStep={setStep} />}
         {step === 3 && <Step3Page />}
       </div>
       <Footer />
-    </>
+    </CheckoutProvider>
   );
 }
 
